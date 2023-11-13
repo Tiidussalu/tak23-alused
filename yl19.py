@@ -1,4 +1,4 @@
-tekst = "mulle meeldivad mõrud jäätised krõbedate äärtega"
+tekst = input("Sisesta tekst, millest saaksin kokku korjata kõik täishäälikud: ")
 
 taishaalikud_arv = 0
 
