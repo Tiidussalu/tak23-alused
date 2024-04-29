@@ -1,6 +1,7 @@
-a = int(input("enter a number: "))
-if a % 2 == 0:
-    print(a, "is even steven")
+n = int(input('Sisesta number:-'))
+Paaris = n % 2
+
+if(Paaris == 0):
+    print('number on paaris')
 else:
-    print (a, "is odd")
-   
+    print('number on paaritu')    

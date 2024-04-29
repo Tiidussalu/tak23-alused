@@ -1,31 +1,22 @@
 import random
 
-def kivi_paber_kaared_mang(kasutaja_valik):
-    võimalused = ["kivi", "paber", "käärid"]
-    arvuti_valik = random.choice(võimalused)
+options = ['kivi', 'paber', 'käärid']
+r = random.choice(options)
 
-    print(f"Arvuti valis: {arvuti_valik}")
+while True: 
+    a = input('Sisesta kivi, paber või käärid (Lõpetamiseks x): ')
+    if a == 'x':
+        break
 
-    if kasutaja_valik == arvuti_valik:
-        return "Viik!"
-    elif (kasutaja_valik == "kivi" and arvuti_valik == "käärid") or \
-         (kasutaja_valik == "paber" and arvuti_valik == "kivi") or \
-         (kasutaja_valik == "käärid" and arvuti_valik == "paber"):
-        return "Kasutaja võitis!"
+    elif a == 'kivi' and r == 'käärid' or a == 'paber' and r == 'kivi' or a == 'käärid' and r == 'paber':
+        print('Sinu võit!')
+    elif a == 'kivi' and r == 'paber' or a == 'paber' and r == 'käärid' or a == 'käärid' and r == 'kivi':
+        print('Sina kaotasid')
     else:
-        return "Arvuti võitis!"
+        print('Viik')
 
-def main():
-    while True:
-        kasutaja_valik = input("Vali kivi, paber või käärid: ").lower()
-
-        if kasutaja_valik not in ["kivi", "paber", "käärid"]:
-            print("Vigane valik.")
-            continue
-
-        tulemus = kivi_paber_kaared_mang(kasutaja_valik)
-        print(tulemus)
-
-if __name__ == "__main__":
-    main()
     
+
+
+
+

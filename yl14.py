@@ -1,9 +1,10 @@
-failname = input("Sisesta failinimi koos laiendiga (näiteks failinimi.ext): ")
+import os
 
-parts = failname.split(".")
+fail = input('Sisesta faili nimi: ')
+split_tup = os.path.splitext(fail)
+print(split_tup)
 
-if len(parts) > 1:
-    laiend = osad[-1]
-    print("Faililaiend on:", laiend)
-else:
-    print("Faililaiendit ei leitud.")
+file_name = split_tup[0]
+file_extension = split_tup[1]
+
+print("File Extension: ", file_extension)

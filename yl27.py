@@ -1,81 +1,48 @@
 import praw
 import matplotlib.pyplot as plt
+from collections import Counter
 import credentials
 
-#top secret data 
-reddit = praw.Reddit(client_id= credentials.client_id, \
-                     client_secret=credentials.client_secret, \
-                     user_agent='robinhood/1.0 (By u/RobinHoodinn)', \
+
+reddit = praw.Reddit(
+    client_id='tmNtAvAgBjdEatlWk2PnWw',
+    client_secret='NGaJwqso_109dVX3tlMIE-Z1aVBSAw',
+    user_agent="python3:Kennu156:0.1 (by u/Kennu156)"
 )
 
-subredditname = "Eesti"
+subreddit_name = 'eesti'
 
-subreddit = reddit.subreddit("Eesti")
+subreddit = reddit.subreddit(subreddit_name)
+hot_posts = subreddit.hot(limit=10)
 
-top_subbreddit = subreddit.top()
-count = 0
-max = 10000
-print('success')
-words = []
-wordCount = {}
-commonWords = {'ja','aga','ei','ok','kas','mina','millal','kuidas','that','this','and','of','the','for','I','it','has','in',
-'you','to','was','but','have','they','a','is','','be','on','are','an','or',
-'at','as','do','if','your','not','can','my','their','them','they','with',
-'at','about','would','like','there','You','from','get','just','more','so',
-'me','more','out','up','some','will','how','one','what',"don't",'should','ju','mu',
-'could','did','no','know','were','did',"it's",'This','he','The','we','lihtsalt','olen','hea','mida','mitte','ning','peale','kus','küll',
-'all','when','had','see','his','him','who','by','her','she','our','thing','-','siin','midagi','saab','palju','need','sa','Kas',
-'now','what','going','been','we',"I'm",'than','any','because','We','even','välja','oleks','veel','ära','ole','nad',
-'said','only','want','other','into','He','what','i','That','thought','et','nii','seda','pole','mis','oli','ma','ka','siis','kui','kui',
-'think',"that's",'Is','much','Eesti','nagu','See','ikka','selle','kes','Ma','oma','või','väga','ta','mingi','Kui','juba','seal','kõik'
-}
+word_counter = Counter()
+
+total_words = 0
+
+for post in hot_posts:
+    title_words = post.title.lower().split()
+    word_counter.update(title_words)
+    total_words += len(title_words)
+
+    post.comments.replace_more(limit=None)
+    for comment in post.comments.list():
+        comment_words = comment.body.lower().split()
+        word_counter.update(comment_words)
+        total_words += len(comment_words)
 
 
-for submission in subreddit.hot(limit=100):
-    submission.comments.replace_more(limit=0)
-    for top_level_comment in submission.comments:
-        count += 1
-        if(count == max):
-            break
-        word = ""
-        for letter in top_level_comment.body:
-            if(letter == ' '):
-                if(word and not word[-1].isalnum()):
-                    word = word[:-1]
-                if not word in commonWords:
-                    words.append(word)
-                word = ""
-            else:
-                word += letter
-    if(count == max):
-            break
+common_words = word_counter.most_common(10)
 
-for word in words:
-    if word in wordCount:
-        wordCount[word] += 1
-    else:
-        wordCount[word] = 1
+for word, count in common_words:
+    percentage = (count / total_words) * 100
+    
 
-sortedList = sorted(wordCount, key = wordCount.get, reverse = True)
+labels = [word[0] for word in common_words]
+sizes = [(word[1] / total_words) * 100 for word in common_words]
 
-keyWords = []
-keyCount = []
-amount = 0
-
-for entry in sortedList:
-    keyWords.append(entry)
-    keyCount.append(wordCount[entry])
-    amount += 1
-    if (amount == 10):
-        break
-
-labels = keyWords
-sizes = keyCount
-
-plt.title('Top comments for: r/' + subredditname)
-plt.pie(sizes, labels=labels, autopct='%1.1f%%',
-        shadow=True, startangle=90)
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
 plt.axis('equal')
-imgplot = plt.imshow("foto.png")
+plt.title('r/' + subreddit_name)
 
-plt.savefig("foto.png")
+
+plt.savefig('diagramm.png')

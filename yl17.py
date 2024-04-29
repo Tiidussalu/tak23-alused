@@ -1,5 +1,4 @@
-num = 1 
-
-while num <= 5:
-    print(num) 
-    num += 1 
+a = 1
+while (a < 6):
+    print(a)
+    a += 4

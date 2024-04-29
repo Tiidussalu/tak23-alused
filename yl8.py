@@ -1,7 +1,8 @@
-year = int(input("sisesta aasta: "))
-if year % 400 == 0 or (year % 4 == 0 and year % 100 != 0):
-    print(year, "on liigaasta")
+a = int(input('Sisesta positiive aastaarv: '))
+
+if a % 4 and a % 400:
+    print('Lihtaasta')
+elif a % 100:
+    print('Liigaasta')
 else:
-    print(year, "ei ole liigaasta")
-
-
+    print('lihtaasta')
